@@ -13,7 +13,8 @@ sudo cp -r "$SOURCE_DIR/nginx/sites-available/" /etc/nginx/
 
 # 3. Copier les certificats
 echo "Copie des certificats vers /etc/nginx/"
-sudo cp -r "$SOURCE_DIR/cert/*" /etc/nginx/
+sudo cp "$SOURCE_DIR/cert/cert.pem" /etc/nginx/
+sudo cp "$SOURCE_DIR/cert/key.pem" /etc/nginx/
 
 # 4. Copier le service systemd
 echo "Copie du fichier de service vers /etc/systemd/system/"
