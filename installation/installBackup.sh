@@ -4,6 +4,7 @@
 DISQUE="/dev/sdb"  # Remplace par le bon identifiant de ton deuxième disque
 MONTAGE="/mnt/backup"
 BACKUP_SCRIPT="/home/administrator/SecureRoom/backup/backup.sh"  # Chemin de ton script de sauvegarde
+LOG_FILE="$MONTAGE/log.txt"  # Chemin du fichier log
 
 # 1. Vérifier si le disque est monté et le démonter si nécessaire
 if mount | grep "$DISQUE" > /dev/null; then
@@ -31,10 +32,15 @@ fi
 echo "Montage du disque $DISQUE sur $MONTAGE..."
 sudo mount $DISQUE $MONTAGE
 
-# 5. Ajouter le montage au fstab pour qu'il soit monté au démarrage
+# 5. Créer les dossiers bd et misc, et le fichier log.txt
+echo "Création des répertoires bd et misc et du fichier log.txt..."
+sudo mkdir -p "$MONTAGE/bd" "$MONTAGE/misc"
+sudo touch "$LOG_FILE"
+
+# 6. Ajouter le montage au fstab pour qu'il soit monté au démarrage
 echo "$DISQUE $MONTAGE ext4 defaults 0 2" | sudo tee -a /etc/fstab
 
-# 6. Ajouter le script de sauvegarde au crontab
+# 7. Ajouter le script de sauvegarde au crontab
 CRON_JOB="0 0 * * * $BACKUP_SCRIPT"  # Exécute le script tous les jours à minuit
 ( crontab -l; echo "$CRON_JOB" ) | crontab -
 
