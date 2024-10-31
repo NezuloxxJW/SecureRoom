@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-DISQUE="/dev/sdb"  # Remplace par le bon identifiant de ton deuxième disque
+DISQUE="/dev/sdb1"  # Remplace par le bon identifiant de ton deuxième disque
 MONTAGE="/mnt/backup"
 BACKUP_SCRIPT="/home/administrator/SecureRoom/backup/backup.sh"  # Chemin de ton script de sauvegarde
 LOG_FILE="$MONTAGE/log.txt"  # Chemin du fichier log
