@@ -7,7 +7,7 @@ ExecStart=/bin/python3 app.py
 Restart=on-failure
 User=administrator
 Group=administrator
-WorkingDirectory=/home/administrator/SecureRoom/server
+WorkingDirectory=/home/administrator/SecureRoom/server/
 
 [Install]
 WantedBy=multi-user.target
