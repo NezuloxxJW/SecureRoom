@@ -34,7 +34,7 @@ sudo mount $DISQUE $MONTAGE
 
 # 5. Créer les dossiers bd et misc, et le fichier log.txt
 echo "Création des répertoires bd et misc et du fichier log.txt..."
-sudo mkdir -p "$MONTAGE/bd" "$MONTAGE/misc"
+sudo mkdir -p "$MONTAGE/db" "$MONTAGE/misc"
 sudo touch "$LOG_FILE"
 
 # 6. Ajouter le montage au fstab pour qu'il soit monté au démarrage
