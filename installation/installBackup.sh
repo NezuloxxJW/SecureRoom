@@ -5,25 +5,37 @@ DISQUE="/dev/sdb"  # Remplace par le bon identifiant de ton deuxième disque
 MONTAGE="/mnt/backup"
 BACKUP_SCRIPT="/home/administrator/SecureRoom/backup/backup.sh"  # Chemin de ton script de sauvegarde
 
-# 1. Formater le disque en ext4
+# 1. Vérifier si le disque est monté et le démonter si nécessaire
+if mount | grep "$DISQUE" > /dev/null; then
+    echo "Le disque $DISQUE est monté. Démontage en cours..."
+    sudo umount $DISQUE
+    if [ $? -ne 0 ]; then
+        echo "Erreur lors du démontage du disque $DISQUE. Veuillez vérifier."
+        exit 1
+    fi
+else
+    echo "Le disque $DISQUE n'est pas monté."
+fi
+
+# 2. Formater le disque en ext4
 echo "Formattage du disque $DISQUE en ext4..."
 sudo mkfs.ext4 $DISQUE
 
-# 2. Créer le point de montage si nécessaire
+# 3. Créer le point de montage si nécessaire
 if [ ! -d "$MONTAGE" ]; then
     echo "Création du répertoire de montage $MONTAGE..."
     sudo mkdir -p $MONTAGE
 fi
 
-# 3. Monter le disque
+# 4. Monter le disque
 echo "Montage du disque $DISQUE sur $MONTAGE..."
 sudo mount $DISQUE $MONTAGE
 
-# 4. Ajouter le montage au fstab pour qu'il soit monté au démarrage
+# 5. Ajouter le montage au fstab pour qu'il soit monté au démarrage
 echo "$DISQUE $MONTAGE ext4 defaults 0 2" | sudo tee -a /etc/fstab
 
-# 5. Ajouter le script de sauvegarde au crontab
-CRON_JOB="0 0 * * * $BACKUP_SCRIPT"  # Exécute le script tous les jours à 2h du matin
+# 6. Ajouter le script de sauvegarde au crontab
+CRON_JOB="0 0 * * * $BACKUP_SCRIPT"  # Exécute le script tous les jours à minuit
 ( crontab -l; echo "$CRON_JOB" ) | crontab -
 
 echo "Configuration terminée. Le script de sauvegarde sera exécuté selon le cron."
