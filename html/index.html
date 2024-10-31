@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="ml-calendar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation salle</title>
+    <style>
+        .reservation-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Pour espacer le bouton "X" et le texte */
+    width: 100%;
+}
+
+/* Le texte de la réservation */
+.reservation-time {
+    margin: 0; /* Supprimer les marges autour du <p> */
+    flex-grow: 1; /* Pour que l'élément prenne tout l'espace disponible */
+}
+
+/* Style pour le bouton supprimer */
+.delete-btn {
+    background-color: lightgray;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px; /* Espace entre le texte et le bouton */
+}
+
+.delete-btn:hover {
+    background-color: darkgray;
+}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            background: url("/images/bg.jpeg") no-repeat center center fixed;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .container {
+            background-color: #afafafb0;
+            padding: 20px;
+            width: 900px;
+            margin: 10%;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .reserved {
+            color: grey;
+            pointer-events: none;
+        }
+        input{
+                font-size: 14px;
+                border-radius: .5rem;
+                line-height: 1.5;
+                padding: 8px 10px;
+                transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
+                border: 2px solid #dee1e2;
+                color: rgb(14, 14, 16);
+                background: #ECECEC;
+                display: block;
+                height: calc(35px - 20px);
+                width: calc(210px - 24px);
+                :hover{
+                    border-color: #ccc;
+                }
+                :focus{
+                    border-color: #9147ff;
+                    background: #fff;
+                }   
+        }
+        select{
+            font-size: 14px;
+                border-radius: .5rem;
+                line-height: 1.5;
+                padding: 8px 10px;
+                transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
+                border: 2px solid #dee1e2;
+                color: rgb(14, 14, 16);
+                background: #ECECEC;
+                display: block;
+                height: calc(35px);
+                width: calc(210px);
+                :hover{
+                    border-color: #ccc;
+                }
+                :focus{
+                    border-color: #9147ff;
+                    background: #fff;
+                }   
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ml-calendar-demo">
+            <div class="ml-calendar">
+                <section class="calendar-left">
+                    <div class="sidebar">
+                        <p class="subheading">Pas connecté</p>
+                        <h1>Jeudi, <br/>1er Janvier</h1>
+                        <div id="reservations" style="display: block;">
+                            <h3 class="primary-color">0 Réservations</h3>
+                            <ul class="calendar-events">
+                                <li>
+                                    <p><strong>00:00 AM</strong><br/>
+                                    00</p>
+                                </li>
+                            </ul>
+                            <p><a onclick="showSubmitMenu();" class="calendar-btn"><i class="fas fa-plus"></i> Nouvelle réservation</a></p>
+                        </div>
+                        <div id="login" style="display: none;">
+                            <label for="username">Nom d'utilisateur : </label>
+							<input id="username" name="username">
+                            <br>
+							<label for="password">Mot de passe : </label>
+							<input id="password" name="password">
+                            <br>
+                            <br>
+                            <p><a onclick="login()" id="greenhover" class="calendar-btn" style=":hover{color: green;}"><i class="fas fa-plus"></i>Login</a></p>
+                            <p><a onclick="showSubmitMenu();"  class="calendar-btn"><i class="fas fa-plus"></i>Retour</a></p>
+                        </div>
+                        <div id="submit" style="display: none;">
+                            <label for="time">Heure : </label>
+                            <select id="time" name="time" required>
+                                <option value="08:00">08:00</option>
+                                <option value="08:30">08:30</option>
+                                <option value="09:00">09:00</option>
+                                <option value="09:30">09:30</option>
+                                <option value="10:00">10:00</option>
+                                <option value="10:30">10:30</option>
+                                <option value="11:00">11:00</option>
+                                <option value="11:30">11:30</option>
+                                <option value="12:00">12:00</option>
+                                <option value="12:30">12:30</option>
+                                <option value="13:00">13:00</option>
+                                <option value="13:30">13:30</option>
+                                <option value="14:00">14:00</option>
+                                <option value="14:30">14:30</option>
+                                <option value="15:00">15:00</option>
+                                <option value="15:30">15:30</option>
+                                <option value="16:00">16:00</option>
+                                <option value="16:30">16:30</option>
+                                <option value="17:00">17:00</option>
+                                <option value="17:30">17:30</option>
+                                <option value="18:00">18:00</option>
+                                <option value="18:30">18:30</option>
+                              </select>
+                            <br>
+                            <label for="duration">Durée : </label>
+                            <select id="duration" name="duration" required>
+                                <option value="00:30">30m</option>
+                                <option value="01:00">1h</option>
+                                <option value="01:30">1h30</option>
+                                <option value="02:00">2h</option>
+                                <option value="02:30">2h30</option>
+                                <option value="03:00">3h</option>
+                                <option value="03:30">3h30</option>
+                                <option value="04:00">4h</option>
+                              </select>
+                            <br>
+                            <label for="description">Description : </label>
+                            <input id="description" name="description">
+                            <br>
+                            <p><a onclick="Submit()" id="greenhover" class="calendar-btn" style=":hover{color: green;}"><i class="fas fa-plus"></i>Submit</a></p>
+                            <p><a onclick="showSubmitMenu();"  class="calendar-btn"><i class="fas fa-plus"></i>Retour</a></p>
+                        </div>
+                   </div>
+                </section>
+                <section class="calendar-right">
+                    <div class="calendar">
+                        <section class="calendar-header">
+                            <h2 id="calendar-title"></h2>
+                             <div class="calendar-nav">
+                            <a href="#" id="prev-month"><i class="fas fa-arrow-left"></i><-</a>
+                            <a href="#" id="today-btn">Aujourd'hui</a>
+                            <a href="#" id="next-month"><i class="fas fa-arrow-right"></i>-></a>
+                        </div>
+                        </section>
+                        <section class="calendar-row">
+                            <div class="calendar-day day-name">Lun</div>
+                            <div class="calendar-day day-name">Mar</div>
+                            <div class="calendar-day day-name">Mer</div>
+                            <div class="calendar-day day-name">Jeu</div>
+                            <div class="calendar-day day-name">Ven</div>
+                            <div class="calendar-day day-name">Sam</div>
+                            <div class="calendar-day day-name">Dim</div>
+                        </section>
+                        <div id="calendar-days" class="calendar-days"></div>
+        
+                    </div>
+                </section>
+                <div class="clear"></div>
+        </div>
+        
+        <div id="timeSlots">
+            
+        </div>
+        <script src="calendar.js">
+        </script>
+    </div>
+</body>
+<script>
+
+</script>
+</html>

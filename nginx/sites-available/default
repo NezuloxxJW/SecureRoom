@@ -1,0 +1,65 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name _;  # Replace with your domain
+
+    ssl_certificate /etc/nginx/cert.pem;     # Path to your SSL certificate
+    ssl_certificate_key /etc/nginx/key.pem;   # Path to your SSL certificate key
+
+    root /var/www/html;  # Directory for your static files
+    index index.html;     # Default file to serve
+
+    # Handle static files
+    location / {
+        try_files $uri $uri/ /index.html;  # Serve index.html if file not found
+    }
+
+
+    # Proxy for the Flask application
+    location /submit {
+        proxy_pass http://127.0.0.1:5000/submit; 
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /delete {
+        proxy_pass http://127.0.0.1:5000/delete; 
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /logout {
+        proxy_pass http://127.0.0.1:5000/logout; 
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /login {
+        proxy_pass http://127.0.0.1:5000/login;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+	}
+
+    location /get_reservations {
+        proxy_pass http://127.0.0.1:5000/get_reservations; 
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
