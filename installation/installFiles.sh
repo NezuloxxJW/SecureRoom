@@ -19,6 +19,7 @@ sudo cp "$SOURCE_DIR/cert/key.pem" /etc/nginx/
 # 4. Copier le service systemd
 echo "Copie du fichier de service vers /etc/systemd/system/"
 sudo cp "$SOURCE_DIR/service/server.service" /etc/systemd/system/
+sudo systemctl enable server.service
 
 # Message de fin
 echo "Déploiement terminé avec succès."
