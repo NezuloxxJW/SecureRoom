@@ -7,17 +7,14 @@ First, clone the git
 
 Then go inside installation folder, there you'll find 4 scripts
 
-installPackages, that will install all dependancies
-
-installFiles, that will put every files inside the good folder
-
-configMqtt, that will disable anonymous login and add a user to the MQTT broker mosquitto
-
-installBackup, that will erase sdb1 disk, reformat it, create folders and create a crontab to move db inside of the second disk
-
+installPackages, that will install all dependancies __
+installFiles, that will put every files inside the good folder __
+configMqtt, that will disable anonymous login and add a user to the MQTT broker mosquitto __
+installBackup, that will erase sdb1 disk, reformat it, create folders and create a crontab to move db inside of the second disk __
 By simply executing each of these in order, you'll get the webapp on your server IP
 
 If you cant execute a script, you need to install dos2unix : sudo apt install dos2unix
+
 then execute it on each files : sudo dos2unix SecureRoom/installation/*
 
 
