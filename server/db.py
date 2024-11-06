@@ -91,12 +91,10 @@ class format:
                  'description': reservation[2],'user_reservation': reservation[3]}
             )
 
-        # Tri par insertion
         for i in range(1, len(formatted_reservations)):
             key = formatted_reservations[i]
             j = i - 1
 
-            # Insère key dans la bonne position
             while j >= 0 and key['time'] < formatted_reservations[j]['time']:
                 j -= 1
             formatted_reservations.insert(j + 1, formatted_reservations.pop(i))
@@ -104,7 +102,7 @@ class format:
         return formatted_reservations
 
 class db:
-    # Supprime une reservation
+    # Supprime une réservation
     def delReservations(token, time):
         try:
             cursor.execute("DELETE FROM reservations WHERE user_token=? AND time=?", (token, time))
@@ -171,7 +169,8 @@ class db:
         except:
             DbgPrint("[-] SELECT failed, Token from UID", "red")
             return False
-    
+
+    # Récuperer les réservations depuis le token et le jour
     def fetchReservationFromTokenDate(token,date):
         try:
             cursor.execute("SELECT time, duration FROM reservations WHERE user_token=? AND date=?", (token, date))
@@ -181,7 +180,7 @@ class db:
             DbgPrint("[-] SELECT failed, Reservation from token", "red")
             return False
 
-    # Enregistrement de la reservation dans la DB
+    # Enregistrement de la réservation dans la DB
     def sumbitReservationDB(date, time, duration, token, description) -> bool:
         try:
             cursor.execute("INSERT INTO reservations (user_token, date, time, duration, description) VALUES (?, ?, ?, ?, ?)",
@@ -229,31 +228,6 @@ class db:
                 )
             ''')
 
-            conn.commit()
-            return True
-        except: return False
-
-
-
-###################################
-        
-
-class test:
-    # Création d'un user de test
-    def createTestUser() -> bool:
-        try:
-            password = "test"
-            hashed_pass = bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt())
-            cursor.execute("INSERT INTO users (card_UID, token, mail, username, password) VALUES (?, ?, ?, ?, ?)", ("00:00:01", 1,"test@test.test","test", hashed_pass))
-            conn.commit()
-            return True
-        except: return False
-    
-    # Création d'un utilisateur
-    def createUser(username, password, mail, UID,token) -> bool:
-        try:
-            hashed_pass = bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt())
-            cursor.execute("INSERT INTO users (card_UID, token, mail, username, password) VALUES (?, ?, ?, ?, ?)", (UID, token,mail,username, hashed_pass))
             conn.commit()
             return True
         except: return False
