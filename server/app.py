@@ -109,9 +109,8 @@ def login():
     user = db.fetchPasswordTokenFromUsername(username)
 
     if user:
-        hashed_password = user['password']  # This is already in bytes
-        if bcrypt.checkpw(password.encode('utf-8'), hashed_password):  # Compare with the bytes directly
-            # Create a response object using the Flask instance's method
+        hashed_password = user['password'] 
+        if bcrypt.checkpw(password.encode('utf-8'), hashed_password): 
             response = make_response(jsonify({'status': 'success', 'username': username ,'message': 'Logged in successfully'}), 200)
             response.set_cookie('auth_token', user['token'], httponly=True, path='/', samesite="Lax")
             DbgPrint("[+] Login exited succesfully", "green")
@@ -200,8 +199,6 @@ if __name__ == '__main__':
     if not (db.testConnection()):
         DbgPrint("[!!] DB not existing, creating DB and creating Tables")
         db.createTables()
-        #test.createTestUser()
-        #test.createUser("mathieu","test","email@test.mathieu","04:76:0A",uuid.uuid4().hex)
 
     signal.signal(signal.SIGINT, signal_handler)
 
