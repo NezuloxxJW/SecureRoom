@@ -4,7 +4,7 @@ SecureRoom is a project I have made for my third year school project.
 It is a an online conference room reservation system using a NFC reader and a Nuki Smart Lock gen 4 
 
 # How to deploy
-First, clone the git
+First, clone the git, make sure to clone it without using sudo
 
 Then go inside installation folder, there you'll find 4 scripts
 
