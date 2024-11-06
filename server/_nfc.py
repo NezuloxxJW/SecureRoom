@@ -9,6 +9,7 @@ from door import door
 
 bThreadRunning = True
 
+# main du thread NFC
 def ThreadNfc():
     with nfc.ContactlessFrontend('usb') as clf:
         while bThreadRunning:
@@ -17,9 +18,11 @@ def ThreadNfc():
 
 threadNFC = threading.Thread(target=ThreadNfc)
 
+# Lance le thread du lecteur NFC
 def launchThreadNfc():
     threadNFC.start()
 
+# Ferme le thread et quitte
 def signal_handler(sig, frame):
     global bThreadRunning
     bThreadRunning = False
@@ -28,22 +31,19 @@ def signal_handler(sig, frame):
     threadNFC.join(timeout=5)
     if threadNFC.is_alive():
         DbgPrint("[!!] Le thread NFC ne s'est pas arrêté, forçage de la sortie.", "red")
-        os._exit(1)  # Force exit
+        os._exit(1)
     sys.exit(0)
 
 class nfcReader:
 
     # Vérifie si l'heure de scan se trouve durant la réservation
     def verifyTime(scanTime, reservationTime, reservationDuration):
-        # Convertir les chaînes en objets datetime si nécessaire
         scanTime = datetime.strptime(scanTime, "%H:%M")
         reservationTime = datetime.strptime(reservationTime, "%H:%M")
         reservationDuration = timedelta(hours=int(reservationDuration.split(':')[0]), minutes=int(reservationDuration.split(':')[1]))
 
-        # Calculer l'heure de fin de réservation
         endTime = reservationTime + reservationDuration
 
-        # Vérifier si scanTime est entre reservationTime et endTime
         return reservationTime <= scanTime <= endTime
 
 
@@ -65,10 +65,13 @@ class nfcReader:
 
     def onNfcRead(tag):
         DbgPrint("[*] NFC read", "yellow")
+        # Récuperer l'ID de la carte
         uid = tag.identifier.hex()
+        
         now = datetime.now()
 
-        date = now.strftime("%Y-%m-%d")  # Format: AAAA-MM-JJ
+        # Récuperer la date du jour et l'heure
+        date = now.strftime("%Y-%m-%d")
         time = now.strftime("%H:%M") 
 
         if nfcReader.verifyReservationFromUID(uid, time, date):
