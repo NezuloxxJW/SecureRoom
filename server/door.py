@@ -28,8 +28,3 @@ class door:
         client.publish(action_topic, "2") 
         client.disconnect()
         DbgPrint("[+] Fermeture envoyée", "green")
-
-
-    
-if __name__ == '__main__':
-    door.close()
