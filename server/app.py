@@ -10,7 +10,7 @@ import os
 import time
 import signal
 
-from db import db, test, bcrypt, format, verify
+from db import db, bcrypt, format, verify
 from debug import DbgPrint
 from _nfc import nfcReader, launchThreadNfc, signal_handler
 
