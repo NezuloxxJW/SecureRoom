@@ -23,4 +23,6 @@ then execute it on each files : sudo dos2unix SecureRoom/installation/*
 # Other
 The code comments are in french as it is my main language
 
+The calendar I used is open source @ https://medialoot.com/item/free-calendar-template/
+
 Nezuloxx // 
