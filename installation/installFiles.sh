@@ -16,11 +16,6 @@ echo "Copie des certificats vers /etc/nginx/"
 sudo cp "$SOURCE_DIR/cert/cert.pem" /etc/nginx/
 sudo cp "$SOURCE_DIR/cert/key.pem" /etc/nginx/
 
-# 4. Copier le service systemd
-echo "Copie du fichier de service vers /etc/systemd/system/"
-sudo cp "$SOURCE_DIR/service/server.service" /etc/systemd/system/
-sudo systemctl enable server.service
-
 sudo sh -c 'echo blacklist pn533_usb >> /etc/modprobe.d/blacklist-nfc.conf'
 
 # Message de fin
