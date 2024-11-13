@@ -7,21 +7,21 @@ server {
 
 server {
     listen 443 ssl;
-    server_name _;  # Replace with your domain
+    server_name _;  
 
-    ssl_certificate /etc/nginx/cert.pem;     # Path to your SSL certificate
-    ssl_certificate_key /etc/nginx/key.pem;   # Path to your SSL certificate key
+    ssl_certificate /etc/nginx/cert.pem;     # Certificat SSL
+    ssl_certificate_key /etc/nginx/key.pem;   # Clé SSL
 
-    root /var/www/html;  # Directory for your static files
-    index index.html;     # Default file to serve
+    root /var/www/html;  # Dossier du site web
+    index index.html;     # Fichier par défaut
 
     # Handle static files
     location / {
-        try_files $uri $uri/ /index.html;  # Serve index.html if file not found
+        try_files $uri $uri/ /index.html;  
     }
 
 
-    # Proxy for the Flask application
+    # Proxy pour l'application flask
     location /submit {
         proxy_pass http://127.0.0.1:5000/submit; 
         proxy_set_header Host $host;
