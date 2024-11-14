@@ -11,6 +11,8 @@ sudo cp -r "$SOURCE_DIR/html/" /var/www/
 echo "Copie des fichiers de configuration Nginx vers /etc/nginx/sites-available/"
 sudo cp -r "$SOURCE_DIR/nginx/sites-available/" /etc/nginx/
 
+sudo systemctl restart nginx
+
 # 3. Copier les certificats
 echo "Copie des certificats vers /etc/nginx/"
 sudo cp "$SOURCE_DIR/cert/cert.pem" /etc/nginx/
